@@ -1,7 +1,16 @@
 let path = require("path");
 let fs = require("fs");
 let childProcess = require("child_process");
-// TODO 定时检测
+let schedule = require("node-schedule");
+
+schedule.scheduleJob("0 0 18 * * *", () => {
+    toPath();
+});
+
+setInterval(function () {
+    // 阻止Node关闭
+}, 6666666666);
+
 // 检测未提交git
 // node --inspect  index.js
 toPath();
@@ -19,7 +28,7 @@ function toPath() {
                 if (info.isDirectory()) {
                     childProcess.exec("git status", {cwd: path}, function (err, info) {
                         if (err) {
-                            if(isNoGit(err.message)){
+                            if (isNoGit(err.message)) {
                                 return;
                             }
                             console.log("");
