@@ -18,6 +18,8 @@ function toPath() {
             fs.stat(path, function (err, info) {
                 if (info.isDirectory()) {
                     childProcess.exec("git status", {cwd: path}, function (err, info) {
+                        console.log(err);
+                        console.log(info);
                         if (err) {
                             if (isNoGit(err.message)) {
                                 return;
