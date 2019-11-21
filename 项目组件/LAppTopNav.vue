@@ -42,11 +42,13 @@
                 // Mozilla/5.0 (Linux; Android 9; MI 8 SE Build/PKQ1.181121.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/74.0.3729.136 Mobile Safari/537.36/bocapp(6.2.0);lsta:4;;sessionId:4cca717d-441e-4e6e-b323-6d2eedc5c0f1;cifNumber:363304468;
                 // Mozilla/5.0 (iPhone; CPU iPhone OS 12_1_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/16D57 (5806579712) bocapp(6.2.0);lsta:4;;cifNumber:554408387;;sessionId:ffe70168-acff-4ba1-a450-0ba3874eed76_encry;
                 let userAgent = window.navigator.userAgent;
-                let array = userAgent.match(/(?<=bocapp\()(\S+)(?=\))/g);
-                if (array && array.length === 1) {
-                    return array[0];
-                }
-                return "";
+                return userAgent.indexOf('bocapp(') > -1 ? userAgent.match(/bocapp\(\S+\)/)[0].slice(7, -1) : '0.0.0';
+                // 特性过新
+                // let array = userAgent.match(/(?<=bocapp\()(\S+)(?=\))/g);
+                // if (array && array.length === 1) {
+                //     return array[0];
+                // }
+                // return "";
             },
             goBack() {
                 if (this.$route.path === '/') {
