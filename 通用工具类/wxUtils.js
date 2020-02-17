@@ -2,11 +2,19 @@ import axios from "axios";
 import uuidV1 from "uuid/v1";
 import sha1 from "js-sha1";
 
+// 项目依赖 npm install js-sha1 uuid --save
 // 微信地址 //res.wx.qq.com/open/js/jweixin-1.4.0.js
 // 签名测试工具 http://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=jsapisign
+
+let PROJECT_NAME = "gdyiqu";
+let JS_API_TICKET = `${PROJECT_NAME}_js-api-ticket`;
+let JS_API_TICKET_EXPIRE_TIME = `${PROJECT_NAME}_js-api-ticket-expire-time`;
+let JS_APP_ID = `${PROJECT_NAME}_js-app-id`;
+let JS_APP_ID_EXPIRE_TIME = `${PROJECT_NAME}_js-app-id-expire-time`;
+
 function getLocalJsApiTicket() {
-    let ticket = localStorage.getItem("js-api-ticket");
-    let expireTime = localStorage.getItem("js-api-ticket-expire-time");
+    let ticket = localStorage.getItem(JS_API_TICKET);
+    let expireTime = localStorage.getItem(JS_API_TICKET_EXPIRE_TIME);
     if (ticket && expireTime) {
         expireTime = parseInt(expireTime);
         if (expireTime > new Date().getTime()) {
@@ -19,8 +27,8 @@ function getLocalJsApiTicket() {
 }
 
 function getLocalAppId() {
-    let ticket = localStorage.getItem("js-app-id");
-    let expireTime = localStorage.getItem("js-app-id-expire-time");
+    let ticket = localStorage.getItem(JS_APP_ID);
+    let expireTime = localStorage.getItem(JS_APP_ID_EXPIRE_TIME);
     if (ticket && expireTime) {
         expireTime = parseInt(expireTime);
         if (expireTime > new Date().getTime()) {
@@ -33,13 +41,13 @@ function getLocalAppId() {
 }
 
 function setLocalJsAppId(ticket, time = 1000 * 60 * 5) {
-    localStorage.setItem("js-app-id", ticket);
-    localStorage.setItem("js-app-id-expire-time", (new Date().getTime() + time).toString());
+    localStorage.setItem(JS_APP_ID, ticket);
+    localStorage.setItem(JS_APP_ID_EXPIRE_TIME, (new Date().getTime() + time).toString());
 }
 
 function setLocalJsApiTicket(ticket, time = 1000 * 60 * 5) {
-    localStorage.setItem("js-api-ticket", ticket);
-    localStorage.setItem("js-api-ticket-expire-time", (new Date().getTime() + time).toString());
+    localStorage.setItem(JS_API_TICKET, ticket);
+    localStorage.setItem(JS_API_TICKET_EXPIRE_TIME, (new Date().getTime() + time).toString());
 }
 
 function getRemoteJsApiTicket() {
@@ -91,7 +99,6 @@ function getConfig(data, apiList) {
     let url = window.location.href.slice(0, window.location.href.indexOf("#"));
     let signature = getSignature(jsapiTicket, nonceStr, timestamp, url);
 
-
     return {
         debug: isDebug, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
         appId: appId, // 必填，公众号的唯一标识
@@ -120,16 +127,16 @@ export function config(apiList = ['onMenuShareTimeline', 'onMenuShareAppMessage'
 
 export function share() {
     window.wx.onMenuShareAppMessage({
-        title: '', // 分享标题
-        desc: '',
-        link: "http://gdecard.jiahuaming.com/boc/gdaikahui/#/",
-        imgUrl: 'http://gdecard.jiahuaming.com/boc/gdaikahui/public/title.png'
+        title: '宅家优惠来啦，在线购物八折！', // 分享标题
+        desc: '众志成城 防控疫情 坚决打赢疫情防控阻击战',
+        link: "https://gdecard.jiahuaming.com/boc/gdyiqu/#/",
+        imgUrl: 'https://gdecard.jiahuaming.com/boc/gdyiqu/img/share.png'
     });
 
     window.wx.onMenuShareTimeline({
-        title: '', // 分享标题
-        desc: '',
-        link: "http://gdecard.jiahuaming.com/boc/gdaikahui/#/",
-        imgUrl: 'http://gdecard.jiahuaming.com/boc/gdaikahui/public/title.png'
+        title: '宅家优惠来啦，在线购物八折！', // 分享标题
+        desc: '众志成城 防控疫情 坚决打赢疫情防控阻击战',
+        link: "https://gdecard.jiahuaming.com/boc/gdyiqu/#/",
+        imgUrl: 'https://gdecard.jiahuaming.com/boc/gdyiqu/img/share.png'
     });
 }
